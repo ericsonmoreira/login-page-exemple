@@ -17,7 +17,7 @@ export const Container = styled.div`
     color: var(--white);
     border-radius: 4px;
     border-style: none;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
     transition: all .2s;
     background-color: var(--quaternary);
     :focus {
@@ -35,6 +35,7 @@ export const SubmitButton = styled.button`
   padding: 4px 8px;
   height: 36px;
   width: 100%;
+  margin-top: 12px;
   border-radius: 18px;
   border-style: none;
 `;

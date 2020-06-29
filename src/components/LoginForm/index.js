@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import {
@@ -13,28 +13,23 @@ import {
  * Componente de Formulario de login.
  */
 function LoginForm() {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Email inválido')
-        .required('Obrigatório'),
-      password: Yup.string()
-        .min(8, 'Mínimo de 8 caracteres')
-        .required('Obrigatório')
-    })
+
+  // Schema do Yup para validação dos campos.
+  const schema = Yup.object().shape({
+    email: Yup.string()
+      .email('Email inválido')
+      .required('Obrigatório'),
+    password: Yup.string()
+      .required('Obrigatório')
   });
 
   /**
-   * Trata o evento de Submit.
-   * @param {*} event 
+   * Trata o onSubmit.
+   * @param {*} values 
+   * @param {*} actions 
    */
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert(JSON.stringify(formik.values));
+  const handleSubmit = (values, actions) => {
+    console.log(values);
   }
 
   return (
@@ -42,31 +37,23 @@ function LoginForm() {
       <Tilte>
         Login
       </Tilte>
-      <form onSubmit={handleSubmit}>
-        <input
-          id="email"
-          name="email"
-          type="text"
-          placeholder="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        {formik.errors.email ? (
-          <ErroMsg>{formik.errors.email}</ErroMsg>
-        ) : null}
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="senha"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        {formik.errors.password ? (
-          <ErroMsg>{formik.errors.password}</ErroMsg>
-        ) : null}
-        <SubmitButton type="submit">Enviar</SubmitButton>
-      </form>
+      <Formik
+        initialValues={{
+          email: '',
+          password: ''
+        }}
+        onSubmit={handleSubmit}
+        validateOnMount
+        validationSchema={schema}
+        render={({ values, isValid }) => (
+          <Form>
+            <Field name="email" type="email" placeholder="email" />
+            <ErrorMessage name="email" component={ErroMsg} />
+            <Field name="password" type="password" placeholder="password" />
+            <ErrorMessage name="password" component={ErroMsg} />
+            <SubmitButton type="submit" disabled={!isValid}>Enviar</SubmitButton>
+          </Form>
+        )} />
     </Container>
   );
 }
