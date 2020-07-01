@@ -9,6 +9,7 @@ export const Container = styled.div`
   width: 400px;
   padding: 8px;
   border-radius: 4px;
+  animation: fade 2s;
 
   input {
     padding: 0 12px;
@@ -22,6 +23,17 @@ export const Container = styled.div`
     background-color: var(--quaternary);
     :focus {
       background-color: var(--gray);
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    } 
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 `;
@@ -45,4 +57,3 @@ export const ErroMsg = styled.span`
   font-size: 12px;
   color: var(--notification);
 `;
-
